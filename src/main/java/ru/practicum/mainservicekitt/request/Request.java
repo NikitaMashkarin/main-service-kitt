@@ -6,8 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.practicum.mainservicekitt.event.Event;
-import ru.practicum.mainservicekitt.user.User;
 
 import java.time.LocalDateTime;
 
@@ -24,13 +22,11 @@ public class Request {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    @Column(name = "event_id", nullable = false)
+    private Long event;
 
-    @ManyToOne
-    @JoinColumn(name = "requester_id", nullable = false)
-    private User requester;
+    @Column(name = "requester_id", nullable = false)
+    private Long requester;
 
     @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false)

@@ -6,11 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.practicum.mainservicekitt.category.Category;
-import ru.practicum.mainservicekitt.compilations.Compilation;
-import ru.practicum.mainservicekitt.location.Location;
-import ru.practicum.mainservicekitt.request.Request;
-import ru.practicum.mainservicekitt.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,9 +29,8 @@ public class Event {
     @Column(nullable = false, length = 2000)
     private String annotation;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    @Column(name = "category_id", nullable = false)
+    private Long category;
 
     @Column(nullable = false, length = 7000)
     private String description;
@@ -44,9 +38,8 @@ public class Event {
     @Column(nullable = false, name = "event_date")
     private LocalDateTime eventDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "location_id", nullable = false)
-    private Location location;
+    @Column(name = "location_id", nullable = false)
+    private Long location;
 
     @Column(nullable = false)
     private boolean paid = false;
@@ -63,19 +56,12 @@ public class Event {
     @Column(name = "published_on")
     private LocalDateTime publishedOn;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "initiator_id", nullable = false)
-    private User initiator;
+    @Column(name = "initiator_id", nullable = false)
+    private Long initiator;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EventState state;
-
-    @ManyToMany(mappedBy = "events", fetch = FetchType.LAZY)
-    private List<Compilation> compilations;
-
-    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
-    private List<Request> requests;
 
     @Column(nullable = false, columnDefinition = "bigint default 0")
     private Long views = 0L;

@@ -6,9 +6,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.practicum.mainservicekitt.event.Event;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -22,14 +19,6 @@ public class Compilation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToMany
-    @JoinTable(
-            name = "event_compilation",
-            joinColumns = @JoinColumn(name = "compilation_id"),
-            inverseJoinColumns = @JoinColumn(name = "event_id")
-    )
-    private List<Event> events;
 
     @Column(nullable = false)
     private Boolean pinned = false;
