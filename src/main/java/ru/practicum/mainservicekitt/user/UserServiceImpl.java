@@ -1,0 +1,40 @@
+package ru.practicum.mainservicekitt.user;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static ru.practicum.mainservicekitt.user.UserMapper.toUser;
+import static ru.practicum.mainservicekitt.user.UserMapper.toUserDto;
+
+@Service
+@RequiredArgsConstructor
+@Transactional
+public class UserServiceImpl implements UserService {
+
+    private final UserRepository userRepository;
+
+    @Override
+    public List<UserDto> getUsers(List<Long> ids, int from, int size) {
+        return toUserDto(userRepository.findByIdIn(ids, PageRequest.of(from / size, size)));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDto> getUsers(int from, int size) {
+        return toUserDto(userRepository.findAll(PageRequest.of(from / size, size)));
+    }
+
+    @Override
+    public UserDto createUser(NewUserRequestDto newUserRequestDto) {
+        return toUserDto(userRepository.save(toUser(newUserRequestDto)));
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
+}
